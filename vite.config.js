@@ -14,6 +14,8 @@ export default defineConfig({
             input: [
                 'resources/styles/main.scss',
                 'resources/app/main.js',
+                "resources/app/assets/style.css",
+                "resources/app/assets/css/style.css",
             ],
             refresh: true,
         }),

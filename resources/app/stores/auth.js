@@ -5,6 +5,7 @@ import {useAlertStore} from "@/stores/alert";
 import AuthService from "@/services/AuthService";
 import UserService from "@/services/UserService";
 import {trans} from "@/helpers/i18n";
+import axios from "@/plugins/axios";
 
 export const useAuthStore = defineStore("auth", {
     state: () => {
@@ -22,7 +23,7 @@ export const useAuthStore = defineStore("auth", {
                 this.user = response.data.user;
                 this.setBrowserData();
                 alertStore.clear();
-                await router.push("/panel/dashboard");
+                await router.push("/");
                 await this.getCurrentUser();
             } catch (error) {
                 alertStore.error(getResponseError(error));
@@ -33,7 +34,7 @@ export const useAuthStore = defineStore("auth", {
             const alertStore = useAlertStore();
             try {
                 const response = await authService.registerUser(payload);
-                await router.push("/panel/dashboard");
+                await router.push("/");
                 alertStore.clear();
             } catch (error) {
                 alertStore.error(getResponseError(error));

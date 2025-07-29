@@ -19,7 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/sanctum/token', TokenController::class);
 
+Route::post('/auth/login', [AuthController::class, 'login']);
+
 Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
+Route::post('/auth/logout', [AuthController::class, 'logout']);
 
     /**
      * Auth related

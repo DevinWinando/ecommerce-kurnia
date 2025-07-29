@@ -14,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('{path}', SpaController::class)->where('path', '(.*)');
+Route::get('/{any}', SpaController::class)
+    ->where('any', '^(?!api).*$');

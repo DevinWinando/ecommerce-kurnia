@@ -9,4 +9,11 @@ return [
         'scheme' => 'https',
     ],
 
+    'pos' => [
+        'token' => env('POS_TOKEN', ''),
+        'url' => env('POS_URL', 'http://kurnia.test'),
+    ],
+    'postmark' => [
+        'token' => env('POSTMARK_TOKEN'),
+    ],
 ];

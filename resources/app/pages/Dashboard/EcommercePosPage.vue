@@ -50,18 +50,18 @@
     </div>
 
     <!-- <Banner /> -->
-    <div class="px-8 bg-white">
+    <!-- <div class="px-8 bg-white">
         <ProductsFilter title="New Products" />
         <ProductsGrid />
-    </div>
-    <div class="px-8 bg-white">
+    </div> -->
+    <!-- <div class="px-8 bg-white">
         <ProductsFilter title="Plastic Supplies" />
         <ProductsGrid />
     </div>
     <div class="px-8 bg-white">
         <ProductsFilter title="Baking Materials" />
         <ProductsGrid />
-    </div>
+    </div> -->
     <Footer />
 </template>
 

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id', true);
             $table->unsignedBigInteger('user_id')->index('user_id');
             $table->unsignedBigInteger('product_id')->index('product_id');
-            $table->integer('quantity')->default(1);
+            $table->integer('qty')->default(1);
             $table->timestamps(6);
         });
     }

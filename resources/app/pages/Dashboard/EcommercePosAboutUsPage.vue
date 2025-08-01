@@ -1,5 +1,4 @@
 <template>
-  <Navbar className="fixed w-full" />
   <Banner />
   <Solutions />
   <Footer />

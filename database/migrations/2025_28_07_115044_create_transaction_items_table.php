@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('transaction_id')->index('transaction_id');
             $table->unsignedBigInteger('product_id')->index('product_id');
-            $table->integer('quantity')->default(1);
+            $table->integer('qty')->default(1);
             $table->float('price', 10, 2);
             $table->float('total', 10, 2);
             $table->text('notes')->nullable();

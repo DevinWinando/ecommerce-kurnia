@@ -21,50 +21,53 @@
                     </button>
 
                     <!-- Desktop Menu -->
-                    <div class="hidden lg:flex items-center grow basis-full">
-                        <div class=" ml-4 flex items-center gap-[25px] xl:gap-[30px]">
-                            <a href="">Promo</a>
+                    <div class="hidden lg:flex items-center justify-content-between grow basis-full">
+                        <div class="ml-4 flex items-center gap-[25px] xl:gap-[30px]">
+                            <RouterLink to="/">About</RouterLink>
+                            <RouterLink to="/shop">Shop</RouterLink>
+                            <RouterLink to="/contact">Contact</RouterLink>
                         </div>
-                        <form class="relative w-[70%] mr-auto flex ml-4 flex-row gap-[30px] xl:gap-[45px]">
-                            <input type="text" placeholder="Search here....."
-                                class="bg-gray-50 border border-gray-50 h-[44px] rounded-md w-full block text-black pt-[11px] pb-[12px] px-[13px] md:px-[16px] placeholder:text-gray-500 outline-0">
-                            <button type="button"
-                                class="absolute text-slate-500 mt-[2px] ltr:right-[13px] ltr:md:right-[15px] rtl:left-[13px] rtl:md:left-[15px] top-1/2 -translate-y-1/2">
-                                <i class="material-symbols-outlined !text-[20px]">
-                                    search
-                                </i>
-                            </button>
-                        </form>
-                        <div class="mr-6 flex items-center ml-3">
-                            <RouterLink to="/cart" class="text-gray-600 hover:text-gray-800 transition-all">
-                                <i class="material-symbols-outlined">shopping_cart</i>
-                            </RouterLink>
-                        </div>
-                        <AdminProfile v-if="authStore.user && authStore.user.hasOwnProperty('id')" />
-                        <div class="flex items-center gap-[25px] xl:gap-[30px]"
-                            v-if="!authStore.user">
-                            <a href="/login"
-                                class="inline-block text-orange-600 transition-all hover:text-orange-700">
-                                Login
-                            </a>
-                            <a href="/register"
-                                class="inline-block text-[#7d0909] py-[10.5px] px-[28px] rounded-[100px] transition-all font-medium border border-[#7d0909] hover:text-white hover:bg-[#7d0909] hover:border-[#7d0909]">
-                                Register
-                            </a>
+                        <div class="flex items-center justify-end grow basis-full">
+                            <form class="relative w-[100%] flex mx-4 flex-row">
+                                <input type="text" placeholder="Search here....."
+                                    class="bg-gray-50 border border-gray-50 h-[44px] rounded-md w-full block text-black pt-[11px] pb-[12px] px-[13px] md:px-[16px] placeholder:text-gray-500 outline-0">
+                                <button type="button"
+                                    class="absolute text-slate-500 mt-[2px] ltr:right-[13px] ltr:md:right-[15px] rtl:left-[13px] rtl:md:left-[15px] top-1/2 -translate-y-1/2">
+                                    <i class="material-symbols-outlined !text-[20px]">
+                                        search
+                                    </i>
+                                </button>
+                            </form>
+                            <div class="mr-6 flex items-center ml-3">
+                                <RouterLink to="/cart" class="text-gray-600 hover:text-gray-800 transition-all">
+                                    <i class="material-symbols-outlined">shopping_cart</i>
+                                </RouterLink>
+                            </div>
+                            <AdminProfile v-if="authStore.user && authStore.user.hasOwnProperty('id')" />
+                            <div class="flex items-center gap-[25px] xl:gap-[30px]" v-if="!authStore.user">
+                                <a href="/login"
+                                    class="inline-block text-orange-600 transition-all hover:text-orange-700">
+                                    Login
+                                </a>
+                                <a href="/register"
+                                    class="inline-block text-[#7d0909] py-[10.5px] px-[28px] rounded-[100px] transition-all font-medium border border-[#7d0909] hover:text-white hover:bg-[#7d0909] hover:border-[#7d0909]">
+                                    Register
+                                </a>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Mobile Menu -->
                     <div class="bg-white rounded-[15px] p-[20px] md:p-[30px] w-full hidden lg:!hidden absolute top-[100%] left-0 right-0"
                         id="navbar-collapse" :class="{ active: isMenuOpen }">
-                        <div class="flex items-center gap-[20px] mt-[15px]">
-                            <a href="https://trezo-twcss.envytheme.com/" target="_blank"
-                                class="inline-block text-orange-600 py-[10.5px] px-[28px] rounded-[100px] transition-all font-medium border border-orange-600 hover:text-white hover:bg-orange-500 hover:border-orange-500">
-                                Get Started
-                            </a>
-                            <a href="https://trezo-bs.envytheme.com/authentication" target="_blank"
-                                class="inline-block text-orange-600 transition-all hover:text-orange-700">
+                        <AdminProfile v-if="authStore.user && authStore.user.hasOwnProperty('id')" />
+                        <div class="flex items-center gap-[25px] xl:gap-[30px]" v-if="!authStore.user">
+                            <a href="/login" class="inline-block text-orange-600 transition-all hover:text-orange-700">
                                 Login
+                            </a>
+                            <a href="/register"
+                                class="inline-block text-[#7d0909] py-[10.5px] px-[28px] rounded-[100px] transition-all font-medium border border-[#7d0909] hover:text-white hover:bg-[#7d0909] hover:border-[#7d0909]">
+                                Register
                             </a>
                         </div>
                     </div>
@@ -81,8 +84,6 @@ import { RouterLink } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
-
-console.log(authStore)
 
 const isSticky = ref(false);
 const isMenuOpen = ref(false);

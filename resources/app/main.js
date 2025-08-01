@@ -9,6 +9,7 @@ import { vTooltip } from "./utils/vTooltip";
 import clickToSeeCodeDirective from "./utils/clickToSeeCode";
 import customPopover from "./utils/popover";
 import i18n from "@/plugins/i18n";
+import store from './store'
 
 import "swiper/css/bundle";
 
@@ -17,7 +18,7 @@ import "./assets/css/remixicon.css";
 const app = createApp(App);
 
 app.use(createPinia());
-
+app.use(store);
 app.use(router);
 app.use(i18n);
 

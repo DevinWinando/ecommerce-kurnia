@@ -50,18 +50,10 @@
     </div>
 
     <!-- <Banner /> -->
-    <!-- <div class="px-8 bg-white">
-        <ProductsFilter title="New Products" />
-        <ProductsGrid />
-    </div> -->
-    <!-- <div class="px-8 bg-white">
-        <ProductsFilter title="Plastic Supplies" />
-        <ProductsGrid />
-    </div>
-    <div class="px-8 bg-white">
-        <ProductsFilter title="Baking Materials" />
-        <ProductsGrid />
-    </div> -->
+     <div v-for="product in products" :key="product.id" class="px-8 bg-white">
+        <ProductsFilter :title="product.name" />
+        <ProductsGrid :products="product.products" />
+     </div>
     <Footer />
 </template>
 
@@ -75,19 +67,38 @@ import { Navigation, Pagination } from 'swiper/modules'
 import image5 from '@/assets/images/products/promo.jpg'
 import JsBarcode from "jsbarcode";
 import { useAuthStore } from "@/stores/auth";
+import ProductService from '@/services/ProductService';
+import { useStore } from 'vuex';
+
+const store = useStore()
+
+const productService = new ProductService();
+const products = ref([]);
+const fetchProducts = async () => {
+    try {
+        store.dispatch('cart/fetchCart')
+        const response = await productService.getProducts();
+        products.value = response.data;
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
+};
 
 const authStore = useAuthStore();
 
 const barcode = ref(null);
-const text = ref("Hello World");
 onMounted(() => {
-    JsBarcode(barcode.value, text.value, {
-        format: 'CODE128',
-        lineColor: '#000',
-        width: 2,
-        height: 40,
-        displayValue: false,
-    })
+    if (authStore.user && authStore.user.hasOwnProperty('id')) {
+        JsBarcode(barcode.value, authStore.user.id, {
+            format: 'CODE128',
+            lineColor: '#000',
+            width: 2,
+            height: 40,
+            displayValue: false,
+        })
+    }
+
+    fetchProducts();
 })
 
 // Ganti dengan URL gambar asli atau import statis

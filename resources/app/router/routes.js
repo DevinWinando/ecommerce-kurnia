@@ -5,6 +5,8 @@ import { default as PageForgotPassword } from "@/views/pages/auth/forgot-passwor
 import { default as PageNotFound } from "@/views/pages/shared/404/Main";
 import EcommercePosPage from "../pages/Dashboard/EcommercePosPage.vue";
 import ChangePasswordPage from "../pages/Settings/ChangePasswordPage.vue";
+import EcommercePosAboutUsPage from "../pages/Dashboard/EcommercePosAboutUsPage.vue";
+import ContactUs from "@/components/FrontPages/Common/ContactUs.vue";
 import HistoryPage from "../pages/Settings/HistoryPage.vue";
 import CartPage from "../pages/Ecommerce/CartPage.vue";
 import ProductDetailsPage from "../pages/Ecommerce/ProductDetailsPage.vue";
@@ -24,7 +26,18 @@ const routes = [
         name: "home",
         path: "/",
         meta: { requiresAuth: false },
+        component: EcommercePosAboutUsPage,
+    },
+    {
+        path: "/shop",
+        meta: { requiresAuth: false },
         component: EcommercePosPage,
+    },
+    {
+        path: "/contact",
+        name: "ContactUsPage",
+        meta: { requiresAuth: false },
+        component: ContactUs,
     },
     {
         path: "/settings/change-password",
@@ -41,6 +54,7 @@ const routes = [
     {
         path: "/cart",
         name: "CartPage",
+        meta: { requiresAuth: true },
         component: CartPage,
     },
     {

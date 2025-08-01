@@ -163,4 +163,14 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             ->fit(Manipulations::FIT_CROP, 1200, 1200)
             ->nonQueued();
     }
+    
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

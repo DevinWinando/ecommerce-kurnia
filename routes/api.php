@@ -24,6 +24,9 @@ Route::post('/sanctum/token', TokenController::class);
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/categories', [ProductController::class, 'categories']);
+Route::get('/products/search', [ProductController::class, 'search']);
+Route::get('/products/categories/{id}', [ProductController::class, 'getProductByCategory']);
 
 Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);

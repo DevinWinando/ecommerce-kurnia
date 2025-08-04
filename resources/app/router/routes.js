@@ -7,6 +7,8 @@ import EcommercePosPage from "../pages/Dashboard/EcommercePosPage.vue";
 import ChangePasswordPage from "../pages/Settings/ChangePasswordPage.vue";
 import EcommercePosAboutUsPage from "../pages/Dashboard/EcommercePosAboutUsPage.vue";
 import ContactUs from "@/components/FrontPages/Common/ContactUs.vue";
+import EcommerceCategoriesPage from "@/pages/Dashboard/EcommerceCategoriesPage.vue";
+import EcommerceSearchPage from "@/pages/Dashboard/EcommerceSearchPage.vue";
 import HistoryPage from "../pages/Settings/HistoryPage.vue";
 import CartPage from "../pages/Ecommerce/CartPage.vue";
 import ProductDetailsPage from "../pages/Ecommerce/ProductDetailsPage.vue";
@@ -32,6 +34,16 @@ const routes = [
         path: "/shop",
         meta: { requiresAuth: false },
         component: EcommercePosPage,
+    },
+    {
+        path: "/shop/categories/:categoryId",
+        meta: { requiresAuth: false },
+        component: EcommerceCategoriesPage,
+    },
+    {
+        path: "/shop/search",
+        meta: { requiresAuth: false },
+        component: EcommerceSearchPage,
     },
     {
         path: "/contact",

@@ -1,10 +1,8 @@
 <template>
     <div class="shadow p-2">
-        <div class="relative">
-            <span class="block bg-white dark:bg-[#0c1427]">
-            </span>
-            <div class="block rounded-md w-full h-[150px]">
-                <img :src="props.product.image" alt="product-image" class="rounded-md" />
+        <div class="">
+            <div class="h-[150px]">
+                <img :src="`/${props.product.image}`" alt="product-image" class="rounded-md" />
             </div>
         </div>
         <div class="mt-[19px] mb-auto">

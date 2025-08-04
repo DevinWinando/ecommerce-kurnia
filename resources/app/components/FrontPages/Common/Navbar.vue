@@ -28,8 +28,9 @@
                             <RouterLink to="/contact">Contact</RouterLink>
                         </div>
                         <div class="flex items-center justify-end grow basis-full">
-                            <form class="relative w-[100%] flex mx-4 flex-row">
-                                <input type="text" placeholder="Search here....."
+                            <div class="relative w-[100%] flex mx-4 flex-row">
+                                <input type="text" placeholder="Search here....." v-model="query"
+                                    @keydown.enter="goToSearch"
                                     class="bg-gray-50 border border-gray-50 h-[44px] rounded-md w-full block text-black pt-[11px] pb-[12px] px-[13px] md:px-[16px] placeholder:text-gray-500 outline-0">
                                 <button type="button"
                                     class="absolute text-slate-500 mt-[2px] ltr:right-[13px] ltr:md:right-[15px] rtl:left-[13px] rtl:md:left-[15px] top-1/2 -translate-y-1/2">
@@ -37,7 +38,7 @@
                                         search
                                     </i>
                                 </button>
-                            </form>
+                            </div>
                             <div class="mr-6 flex items-center ml-3">
                                 <RouterLink to="/cart" class="text-gray-600 hover:text-gray-800 transition-all">
                                     <i class="material-symbols-outlined">shopping_cart</i>
@@ -60,9 +61,14 @@
                     <!-- Mobile Menu -->
                     <div class="bg-white rounded-[15px] p-[20px] md:p-[30px] w-full hidden lg:!hidden absolute top-[100%] left-0 right-0"
                         id="navbar-collapse" :class="{ active: isMenuOpen }">
+                        <div class="ml-4 flex flex-col items-center gap-[25px] xl:gap-[30px]">
+                            <RouterLink to="/">About</RouterLink>
+                            <RouterLink to="/shop">Shop</RouterLink>
+                            <RouterLink to="/contact">Contact</RouterLink>
+                        </div>
                         <AdminProfile v-if="authStore.user && authStore.user.hasOwnProperty('id')" />
-                        <div class="flex items-center gap-[25px] xl:gap-[30px]" v-if="!authStore.user">
-                            <a href="/login" class="inline-block text-orange-600 transition-all hover:text-orange-700">
+                        <div class="flex items-center mt-4 justify-between gap-[25px] xl:gap-[30px]" v-if="!authStore.user">
+                            <a href="/login" class="inline-block text-[#7d0909] py-[10.5px] px-[28px] rounded-[100px] transition-all font-medium border border-[#7d0909] hover:text-white hover:bg-[#7d0909] hover:border-[#7d0909]">
                                 Login
                             </a>
                             <a href="/register"
@@ -79,14 +85,16 @@
 
 <script setup>
 import AdminProfile from "@/components/Layouts/TopHeader/AdminProfile.vue";
-import { defineProps, ref, onMounted } from "vue";
-import { RouterLink } from "vue-router";
+import { defineProps, ref, onMounted, watch } from "vue";
+import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
 
 const isSticky = ref(false);
 const isMenuOpen = ref(false);
+const query = ref("");
+const router = useRouter();
 
 const toggleMenu = () => {
     isMenuOpen.value = !isMenuOpen.value;
@@ -96,4 +104,14 @@ onMounted(() => {
     let scrollPos = window.scrollY;
     isSticky.value = scrollPos >= 0;
 });
+
+function goToSearch() {
+    if (!query.value || query.value.trim() === "") {
+        return;
+    }
+    const searchQuery = query.value.trim();
+    if (searchQuery) {
+        router.push({ path: '/shop/search', query: { q: searchQuery } })
+    }
+}
 </script>

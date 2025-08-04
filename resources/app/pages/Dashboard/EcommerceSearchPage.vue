@@ -4,7 +4,7 @@
             <div v-if="authStore.user" class="w-full p-4 mb-4 rounded-xl shadow bg-white">
                 <div class="flex flex-col md:flex-row items-center md:justify-between justify-center">
                     <div>
-                        <h2 class="text-lg font-semibold text-gray-800">{{authStore?.user?.first_name}}</h2>
+                        <h2 class="text-lg font-semibold text-gray-800">{{ authStore?.user?.first_name }}</h2>
                         <div class="mt-1 flex items-center text-sm text-green-600 font-medium">
                             <svg class="w-4 h-4 mr-1 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path
@@ -26,36 +26,14 @@
             </div>
         </div>
 
-        <div class="relative px-4">
-            <Swiper :modules="[Navigation, Pagination]" :slides-per-view="2" :space-between="20" :loop="true" navigation
-                pagination class="w-full">
-                <SwiperSlide v-for="(slide, index) in slides" :key="index">
-                    <img :src="slide.image" :alt="`promo-${index}`"
-                        class="rounded-xl w-full object-cover max-h-[40vh]" />
-                </SwiperSlide>
-            </Swiper>
-        </div>
-
-        <div class="relative mt-10">
-            <Swiper :slides-per-view="'auto'" :space-between="12" :loop="true" class="category-carousel w-full">
-                <SwiperSlide v-for="(item, index) in categories" :key="index" class="!w-auto">
-                    <RouterLink :to="`/shop/categories/${item.id}`">
-                        <button
-                            class="inline-flex border border-slate-700 items-center gap-2 px-4 py-2 rounded-full text-sm text-gray-700">
-                            <!-- <img :src="item.icon" alt="" class="w-5 h-5 object-contain" /> -->
-                            <span>{{ item.name }}</span>
-                        </button>
-                    </RouterLink>
-                </SwiperSlide>
-            </Swiper>
+        <!-- <Banner /> -->
+        <div class="px-8 bg-white">
+            <ProductsFilter :title="`Search: ${route.query.q || ''}`" />
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-[25px]">
+                <Card v-for="product in products" :key="product.id" :product="product" />
+            </div>
         </div>
     </div>
-
-    <!-- <Banner /> -->
-     <div v-for="product in products" :key="product.id" class="px-8 bg-white">
-        <ProductsFilter :title="product.name" />
-        <ProductsGrid :products="product.products" />
-     </div>
     <Footer />
 </template>
 
@@ -64,33 +42,31 @@ import { ref, onMounted } from 'vue';
 import ProductsFilter from "@/components/Pages/Ecommerce/ProductsGrid/ProductsFilter.vue";
 import ProductsGrid from "@/components/Pages/Ecommerce/ProductsGrid/index.vue";
 import Footer from "@/components/FrontPages/Common/Footer.vue";
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination } from 'swiper/modules'
-import image5 from '@/assets/images/products/promo.jpg'
 import JsBarcode from "jsbarcode";
 import { useAuthStore } from "@/stores/auth";
 import ProductService from '@/services/ProductService';
-import { useStore } from 'vuex';
-import { RouterLink } from 'vue-router';
 import Card from '@/components/Pages/Ecommerce/ProductsGrid/Card.vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
 const store = useStore()
+const route = useRoute();
 
 const productService = new ProductService();
 const products = ref([]);
-const categories = ref([]);
 const fetchProducts = async () => {
     try {
         store.dispatch('cart/fetchCart')
-        const response = await productService.getProducts();
-        products.value = response.data;
 
-        const categoriesResponse = await productService.getCategories();
-        categories.value = categoriesResponse.data;
+        const query = route.query.q || '';
+        const response = await productService.searchProducts(query);
+        products.value = response.data;
     } catch (error) {
         console.error("Error fetching products:", error);
     }
 };
+
+fetchProducts();
 
 const authStore = useAuthStore();
 
@@ -108,22 +84,6 @@ onMounted(() => {
 
     fetchProducts();
 })
-
-// Ganti dengan URL gambar asli atau import statis
-const slides = [
-    {
-        image: image5
-    },
-    {
-        image: image5
-    },
-    {
-        image: image5
-    },
-    {
-        image: image5
-    }
-]
 </script>
 
 <style scoped>

@@ -5,7 +5,7 @@
             <img src="@/assets/images/admin.png"
                 class="w-[35px] h-[35px] md:w-[42px] md:h-[42px] rounded-full ltr:md:mr-[2px] ltr:lg:mr-[8px] rtl:md:ml-[2px] rtl:lg:ml-[8px] border-[2px] border-primary-200 inline-block"
                 alt="admin-image" />
-            <span class="block font-semibold text-[0px] lg:text-base"> {{ authStore.user.first_name }} </span>
+            <span class="block font-semibold text-[0px] lg:text-base"> {{ authStore?.user?.first_name }} </span>
             <i
                 class="ri-arrow-down-s-line text-[15px] absolute ltr:-right-[3px] rtl:-left-[3px] top-1/2 -translate-y-1/2 mt-px"></i>
         </MenuButton>

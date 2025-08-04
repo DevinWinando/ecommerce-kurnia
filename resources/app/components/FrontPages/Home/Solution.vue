@@ -34,7 +34,7 @@
                                 <i class="ri-check-double-line"></i>
                             </div>
                             <h3
-                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl -tracking-[.44px] md:-tracking-[1px] lg:-tracking-[1.44px] !mb-[10px] md:!mb-[12px]">
+                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl !mb-[10px] md:!mb-[12px]">
                                 Pilihan Produk yang Lengkap dan Berkualitas
                             </h3>
                             <p class="md:text-[15px] lg:text-md -tracking-[0.16px]">
@@ -50,7 +50,7 @@
                                 <i class="ri-check-double-line"></i>
                             </div>
                             <h3
-                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl -tracking-[.44px] md:-tracking-[1px] lg:-tracking-[1.44px] !mb-[10px] md:!mb-[12px]">
+                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl !mb-[10px] md:!mb-[12px]">
                                 Lebih dari 25 Tahun Pengalaman
                             </h3>
                             <p class="md:text-[15px] lg:text-md -tracking-[0.16px]">
@@ -64,7 +64,7 @@
                                 <i class="ri-check-double-line"></i>
                             </div>
                             <h3
-                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl -tracking-[.44px] md:-tracking-[1px] lg:-tracking-[1.44px] !mb-[10px] md:!mb-[12px]">
+                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl !mb-[10px] md:!mb-[12px]">
                                 Harga Terjangkau & Transparan
                             </h3>
                             <p class="md:text-[15px] lg:text-md -tracking-[0.16px]">
@@ -78,7 +78,7 @@
                                 <i class="ri-check-double-line"></i>
                             </div>
                             <h3
-                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl -tracking-[.44px] md:-tracking-[1px] lg:-tracking-[1.44px] !mb-[10px] md:!mb-[12px]">
+                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl !mb-[10px] md:!mb-[12px]">
                                 Pelayanan Cepat dan Ramah
                             </h3>
                             <p class="md:text-[15px] lg:text-md -tracking-[0.16px]">
@@ -92,7 +92,7 @@
                                 <i class="ri-check-double-line"></i>
                             </div>
                             <h3
-                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl -tracking-[.44px] md:-tracking-[1px] lg:-tracking-[1.44px] !mb-[10px] md:!mb-[12px]">
+                                class="!font-light !text-[20px] md:!text-[22px] lg:!text-xl !mb-[10px] md:!mb-[12px]">
                                 Pengambilan Langsung & Layanan Pengiriman
                             </h3>
                             <p class="md:text-[15px] lg:text-md -tracking-[0.16px]">
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <a href="/shop"
-                        class="rounded-[60px] bg-orange-400 p-[7px] md:p-[10px] uppercase text-xs font-bold text-white tracking-[1px] md:tracking-[1.8px] flex justify-center px-4 transition-all hover:bg-[#ffffff] hover:border-amber-500 hover:border-1 hover:text-black">
+                        class="rounded-[60px] bg-orange-400 p-[7px] md:p-[10px] uppercase text-xs font-bold text-white tracking-[1px] md:tracking-[1.8px] flex justify-center px-4 transition-all hover:bg-[#ffffff] hover:border-amber-500 border hover:text-black">
                         <span
                             class="ltr:ml-[15px] rtl:mr-[15px] ltr:md:ml-[20px] rtl:md:mr-[20px] flex items-center justify-center gap-[15px] md:gap-[20px]">
                             Belanja Sekarang <i

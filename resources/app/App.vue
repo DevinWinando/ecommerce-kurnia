@@ -1,23 +1,23 @@
 <template>
     <div>
         <div>
-            <LeftSidebar v-if="shouldShowSidebar && !isNotFound" />
-            <TopHeader v-if="shouldShowHeader && !isNotFound" />
+            <!-- <LeftSidebar v-if="shouldShowSidebar && !isNotFound" />
+            <TopHeader v-if="shouldShowHeader && !isNotFound" /> -->
 
             <div :class="[
-                'main-content transition-all flex flex-col overflow-hidden min-h-screen',
+                'main-content transition-all flex flex-col overflow-hidden min-h-screen !px-0 !pt-4',
                 {
-                    active: stateStoreInstance.open,
-                    'padding-minus': shouldShowPaddingZero || isNotFound,
+                    // active: stateStoreInstance.open,
+                    // 'padding-minus': shouldShowPaddingZero || isNotFound,
                 },
             ]">
-                <Navbar v-if="!shouldShowSidebar && !isNotFound && shouldShowNavbar" className="fixed w-full" />
+                <Navbar className="fixed w-full" />
                 <router-view />
-                <div class="grow"></div>
-                <MainFooter v-if="shouldShowFooter && !isNotFound" />
+                <!-- <div class="grow"></div> -->
+                <!-- <MainFooter v-if="shouldShowFooter && !isNotFound" /> -->
             </div>
-            <AddNewTaskPopup />
-            <AddNewCardPopup />
+            <!-- <AddNewTaskPopup />
+            <AddNewCardPopup /> -->
         </div>
     </div>
 </template>

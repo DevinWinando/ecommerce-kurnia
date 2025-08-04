@@ -5,7 +5,7 @@
     <div
       class="container sm:max-w-[540px] md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1308px] mx-auto px-[12px]"
     >
-      <div class="grid grid-cols-2 gap-[25px] items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-[25px] items-center">
         <div class="ltr:lg:-mr-[75px] rtl:lg:-ml-[75px]">
           <h2
             class="-tracking-[1px] lg:-tracking-[1.5px] !text-[30px] md:!text-[45px] lg:!text-[48px] xl:!text-[48px] !font-medium !leading-[1.2] !mb-[14px] md:!mb-[17px] lg:!mb-[20px] xl:!mb-[25px]"

@@ -13,9 +13,13 @@ import HistoryPage from "../pages/Settings/HistoryPage.vue";
 import CartPage from "../pages/Ecommerce/CartPage.vue";
 import ProductDetailsPage from "../pages/Ecommerce/ProductDetailsPage.vue";
 import AccountSettingsPage from "../pages/Settings/AccountSettingsPage.vue";
+import ChatCustomer from "@/pages/Dashboard/ChatCustomer.vue";
+import ChatAdmin from "@/pages/Dashboard/ChatAdmin.vue";
+import ListRoomChat from "@/pages/Dashboard/ListRoomChat.vue";
 
 import { default as PageDashboard } from "@/views/pages/private/dashboard/Main";
 import { default as PageProfile } from "@/views/pages/private/profile/Main";
+import RecentOrders from "@/components/Dashboard/Ecommerce/RecentOrders.vue";
 
 import { default as PageUsers } from "@/views/pages/private/users/Index";
 import { default as PageUsersCreate } from "@/views/pages/private/users/Create";
@@ -82,58 +86,50 @@ const routes = [
         component: AccountSettingsPage,
     },
     {
-        name: "panel",
-        path: "/panel",
-        children: [
-            {
-                name: "dashboard",
-                path: "dashboard",
-                meta: { requiresAuth: true },
-                component: PageDashboard,
-            },
-            {
-                name: "profile",
-                path: "profile",
-                meta: { requiresAuth: true, isOwner: true },
-                component: PageProfile,
-            },
-            {
-                path: "users",
-                children: [
-                    {
-                        name: "users.list",
-                        path: "list",
-                        meta: {
-                            requiresAuth: true,
-                            requiresAbility: abilities.LIST_USER,
-                        },
-                        component: PageUsers,
-                    },
-                    {
-                        name: "users.create",
-                        path: "create",
-                        meta: {
-                            requiresAuth: true,
-                            requiresAbility: abilities.CREATE_USER,
-                        },
-                        component: PageUsersCreate,
-                    },
-                    {
-                        name: "users.edit",
-                        path: ":id/edit",
-                        meta: {
-                            requiresAuth: true,
-                            requiresAbility: abilities.EDIT_USER,
-                        },
-                        component: PageUsersEdit,
-                    },
-                ],
-            },
-        ],
+        name: "dashboard",
+        path: "/admin",
+        meta: { requiresAuth: true, adminRoute: true },
+        component: PageDashboard,
     },
     {
-        path: "/login",
+        name: "dashboard",
+        path: "/admin/dashboard",
+        meta: { requiresAuth: true, adminRoute: true },
+        component: PageDashboard,
+    },
+    {
+        name: "settingsBanner",
+        path: "/admin/settings/banner",
+        meta: { requiresAuth: true, adminRoute: true },
+        component: RecentOrders,
+    },
+    {
+        name: "settingsContent",
+        path: "/admin/settings/content",
+        meta: { requiresAuth: true, adminRoute: true },
+        component: RecentOrders,
+    },
+    {
+        name: "ChatCustomer",
+        path: "/chat",
+        meta: { requiresAuth: true },
+        component: ChatCustomer,
+    },
+    {
+        name: "ListRoomChat",
+        path: "/admin/chat/rooms",
+        meta: { requiresAuth: true, adminRoute: true },
+        component: ChatAdmin,
+    },
+    {
+        name: "ChatAdmin",
+        path: "/admin/chat/:id",
+        meta: { requiresAuth: true, adminRoute: true },
+        component: ChatAdmin,
+    },
+    {
         name: "login",
+        path: "/login",
         meta: { requiresAuth: false, isPublicAuthPage: true },
         component: PageLogin,
     },

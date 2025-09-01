@@ -25,6 +25,7 @@ class UserResource extends JsonResource
         $data['created_at'] = ! empty($this->resource->created_at) ? $this->resource->created_at->diffForHumans() : null;
         $data['updated_at'] = ! empty($this->resource->updated_at) ? $this->resource->updated_at->diffForHumans() : null;
         $data['roles'] = Data::formatCollectionForSelect($this->roles, 'name', 'trans');
+        $data['point'] = $this->point;
         if (isset($data['avatar'])) {
             unset($data['avatar']);
         }

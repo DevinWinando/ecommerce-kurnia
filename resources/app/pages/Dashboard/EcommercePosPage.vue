@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="text-center">
-                        <div class="text-lg font-semibold text-yellow-600">233</div>
+                        <div class="text-lg font-semibold text-yellow-600">{{ authStore?.user?.point }}</div>
                         <a href="#" class="text-sm text-gray-600 link">Tukar Poin</a>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
         <div class="relative px-4">
             <Swiper :modules="[Navigation, Pagination]" :slides-per-view="2" :space-between="20" :loop="true" navigation
                 pagination class="w-full">
-                <SwiperSlide v-for="(slide, index) in slides" :key="index">
+                <SwiperSlide v-for="(slide, index) in banners" :key="index">
                     <img :src="slide.image" :alt="`promo-${index}`"
                         class="rounded-xl w-full object-cover max-h-[40vh]" />
                 </SwiperSlide>
@@ -71,10 +71,21 @@ import JsBarcode from "jsbarcode";
 import { useAuthStore } from "@/stores/auth";
 import ProductService from '@/services/ProductService';
 import { useStore } from 'vuex';
+import BannerService from '@/services/BannerService';
 import { RouterLink } from 'vue-router';
-import Card from '@/components/Pages/Ecommerce/ProductsGrid/Card.vue';
 
 const store = useStore()
+const bannerService = new BannerService();
+const banners = ref([]);
+
+const fetchBanners = async () => {
+    try {
+        const response = await bannerService.getBanners();
+        banners.value = response.data?.data || [];
+    } catch (error) {
+        console.error("Error fetching banners:", error);
+    }
+};
 
 const productService = new ProductService();
 const products = ref([]);
@@ -107,6 +118,7 @@ onMounted(() => {
     }
 
     fetchProducts();
+    fetchBanners();
 })
 
 // Ganti dengan URL gambar asli atau import statis

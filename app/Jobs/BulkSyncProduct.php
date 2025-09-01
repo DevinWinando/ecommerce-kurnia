@@ -31,8 +31,9 @@ class BulkSyncProduct implements ShouldQueue
     public function handle(): void
     {
         foreach ($this->products as $product) {
-            Product::updateOrCreate(['id' => $product['id']], [
+            Product::updateOrCreate(['pos_id' => $product['id']], [
                 ...$product,
+                'pos_id' => $product['id'],
                 'category_id' => $product['subcategory_id'],
             ]);
         }

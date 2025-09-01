@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->index('user_id');
             $table->dateTime('transaction_date');
             $table->float('total_amount', 10, 2);
+            $table->float('shipping_cost', 10, 2)->default(0);
             $table->string('status')->default('pending');
             $table->text('notes')->nullable();
             $table->string('payment_method')->nullable();

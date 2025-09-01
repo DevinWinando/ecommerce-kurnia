@@ -168,7 +168,6 @@ const handleCheckout = (e) => {
     cartService.checkout({ shipping_address: shippingAddress });
 
     store.dispatch("cart/clearCart");
-    alert("Checkout berhasil! Terima kasih telah berbelanja.");
     window.location.href = "/cart";
 };
 </script>

@@ -41,6 +41,9 @@
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light')
     </script>
+
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="SB-Mid-client-Qr99qZm3N3psW61A"></script>
 </head>
 
 <body>

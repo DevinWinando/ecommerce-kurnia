@@ -8,6 +8,8 @@
                         <img src="@/assets/images/dots.png"
                             class="hidden md:inline-block -z-[1] absolute top-0 ltr:left-0 rtl:right-0" alt="dots">
                         <div class="mx-auto md:max-w-[446px] lg:max-w-[340px] xl:max-w-[446px]">
+                            <img src="@/assets/images/marketing/woman-with-tab.png"
+                            class="hidden md:inline-block -z-[1] absolute top-0 ltr:left-0 rtl:right-0" alt="dots">
                         </div>
                     </div>
                 </div>

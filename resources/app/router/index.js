@@ -1,14 +1,14 @@
-import {createWebHistory, createRouter} from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 
 import routes from "@/router/routes";
 
-import {useAuthStore} from "@/stores/auth";
+import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
     history: createWebHistory(),
-    linkActiveClass: 'active',
+    linkActiveClass: "active",
     routes,
-})
+});
 
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
@@ -19,35 +19,48 @@ router.beforeEach(async (to, from, next) => {
     if (!authStore.user) {
         await authStore.getCurrentUser();
     }
+
     if (!authStore.user) {
         authStore.clearBrowserData();
-        if(requiresAuth) {
-            next({name: 'login'})
+        if (requiresAuth) {
+            next({ name: "login" });
         }
     }
 
-    if(to?.meta?.isPublicAuthPage && authStore.user) {
-        next({name: 'dashboard'})
+    if (
+        to?.meta?.adminRoute ||
+        authStore?.user ||
+        authStore?.user?.roles[0] ||
+        authStore?.user?.roles[0]?.id != "admin"
+    ) {
+        console.log('asdsd')
+        next({ name: "login" });
+        return;
+    }
+    console.log('asdsd');
+
+    if (to?.meta?.isPublicAuthPage && authStore.user) {
+        next({ name: "dashboard" });
         return;
     }
 
     if (requiresAbility && requiresAuth) {
         if (authStore.hasAbilities(requiresAbility)) {
-            next()
+            next();
         } else {
             next({
-                name: 'profile'
-            })
+                name: "profile",
+            });
         }
     } else if (belongsToOwnerOnly) {
         if (authStore.user.is_owner) {
-            next()
+            next();
         } else {
-            next({name: 'dashboard'})
+            next({ name: "dashboard" });
         }
     } else {
-        next()
+        next();
     }
-})
+});
 
 export default router;

@@ -44,6 +44,11 @@
                                     <i class="material-symbols-outlined">shopping_cart</i>
                                 </RouterLink>
                             </div>
+                            <div class="mr-6 flex items-center ml-3">
+                                <RouterLink to="/chat" class="text-gray-600 hover:text-gray-800 transition-all">
+                                    <i class="material-symbols-outlined">chat</i>
+                                </RouterLink>
+                            </div>
                             <AdminProfile v-if="authStore.user && authStore.user.hasOwnProperty('id')" />
                             <div class="flex items-center gap-[25px] xl:gap-[30px]" v-if="!authStore.user">
                                 <a href="/login"

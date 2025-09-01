@@ -4,9 +4,6 @@
             <h1 class="text-6xl mb-4 font-bold text-gray-600">Welcome</h1>
             <h4 class="text-gray-500 text-2xl">{{ new Date() }}</h4>
         </div>
-        <footer class="py-5 text-center">
-            <p class="text-gray-400">{{ trans('global.phrases.inspire') }}</p>
-        </footer>
     </Page>
 </template>
 

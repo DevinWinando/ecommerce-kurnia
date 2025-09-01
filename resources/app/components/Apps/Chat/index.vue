@@ -329,20 +329,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup>
+import { defineComponent, ref } from "vue";
 import { useClickOutside } from "@/utils/useClickOutside";
 
-export default defineComponent({
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "Chat",
-  setup() {
-    const { isActive, toggleActive } = useClickOutside("dropdownToggle");
-
-    return {
-      isActive,
-      toggleActive,
-    };
-  },
-});
+const { isActive, toggleActive } = useClickOutside("dropdownToggle");
 </script>

@@ -35,8 +35,11 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        $this->syncPosUser($input);
         $posUser = $this->syncPosUser($input);
+
+        if (!$posUser) {
+            throw new \Exception('Failed to sync user with POS system. User Not Found.');
+        }
 
         return User::create([
             'first_name' => $input['first_name'],
@@ -46,6 +49,7 @@ class CreateNewUser implements CreatesNewUsers
             'pos_id' => $posUser['id'] ?? null,
             'point' => $posUser['point'] ?? 0,
             'password' => Hash::make($input['password']),
+            'code' => $posUser['code'] ?? 0,
         ]);
     }
 
@@ -65,7 +69,7 @@ class CreateNewUser implements CreatesNewUsers
                 throw new \Exception(implode(', ', $errors['message']));
             }
 
-            throw new \Exception('Failed to create user in POS system.');
+            throw new \Exception('Failed to create user in POS system. ' . $user->json()['error'] ?? "User Not Found.");
         }
 
         $user = json_decode($user->body(), true);

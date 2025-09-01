@@ -15,6 +15,7 @@ class Transaction extends Model
         'payment_method',
         'transaction_number',
         'shipping_address',
+        'shipping_cost',
         'tracking_number',
     ];
 

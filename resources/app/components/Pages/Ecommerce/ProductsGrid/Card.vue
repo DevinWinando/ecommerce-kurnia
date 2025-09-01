@@ -2,7 +2,7 @@
     <div class="shadow p-2">
         <div class="">
             <div class="h-[150px]">
-                <img :src="`/${props.product.image}`" alt="product-image" class="rounded-md" />
+                <img :src="`https://pos.kurniagrup.com/images/products/${props.product.image}`" alt="product-image" class="rounded-md" />
             </div>
         </div>
         <div class="mt-[19px] mb-auto">

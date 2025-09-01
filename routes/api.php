@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\EcommerceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TokenController;
@@ -20,6 +24,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Broadcast::routes([
+    'middleware' => ['auth:sanctum'],
+]);
+
+Route::group([
+    'middleware' => ['pos'],
+    'prefix' => 'ecommerce-pos',
+], function () {
+    Route::put('transaction/{id}', [EcommerceController::class, 'updateTransaction']);
+});
+
 Route::post('/sanctum/token', TokenController::class);
 
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -27,6 +42,8 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/categories', [ProductController::class, 'categories']);
 Route::get('/products/search', [ProductController::class, 'search']);
 Route::get('/products/categories/{id}', [ProductController::class, 'getProductByCategory']);
+
+Route::post('/payment/callback', [PaymentController::class, 'callback']);
 
 Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
@@ -47,6 +64,21 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
      */
     Route::put('/users/{user}/avatar', [UserController::class, 'updateAvatar']);
     Route::resource('users', UserController::class);
+
+    /**
+     * Banners
+     */
+    Route::get('/banners', [BannerController::class, 'index']);
+    Route::post('/banners', [BannerController::class, 'store']);
+    Route::delete('/banners/{id}', [BannerController::class, 'destroy']);
+
+    Route::get('/rooms', [ChatController::class, 'getRooms']); // admin
+    Route::get('/my-room', [ChatController::class, 'getMyRoom']); // customer
+    Route::get('/rooms/{room}', [ChatController::class, 'getMessages']);
+    Route::post('/messages', [ChatController::class, 'sendMessage']);
+
+    Route::post('/payment/token/{id}', [PaymentController::class, 'getSnapToken']);
+    Route::get('/payment/download/{id}', [PaymentController::class, 'download']);
 
     /**
      * Roles

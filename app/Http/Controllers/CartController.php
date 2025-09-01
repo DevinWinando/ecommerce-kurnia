@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendTransactionToPos;
 use App\Models\Cart;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -65,6 +67,26 @@ class CartController extends Controller
         return response()->json(['message' => 'Cart synced successfully']);
     }
 
+    public static function generateTransactionNumber()
+    {
+        $date = now()->format('Ymd');
+
+        $lastTransaction = Transaction::whereDate('created_at', now())
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $number = 1;
+
+        if ($lastTransaction) {
+            // Ambil nomor urut terakhir
+            $lastNumber = (int) substr($lastTransaction->transaction_number, -4);
+            $number = $lastNumber + 1;
+        }
+
+        // Format: TRX-YYYYMMDD-XXXX
+        return 'TRX-' . $date . '-' . str_pad($number, 4, '0', STR_PAD_LEFT);
+    }
+
     /**
      * Checkout the cart for the authenticated user.
      *
@@ -105,6 +127,8 @@ class CartController extends Controller
 
         // Clear the cart after checkout
         Cart::where('user_id', $user->id)->delete();
+
+        dispatch(new SendTransactionToPos($transaction->with('items.product')->latest()->first()->toArray()));
 
         return response()->json(['message' => 'Checkout successful', 'items' => $cartItems]);
     }

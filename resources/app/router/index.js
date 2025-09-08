@@ -24,20 +24,21 @@ router.beforeEach(async (to, from, next) => {
         authStore.clearBrowserData();
         if (requiresAuth) {
             next({ name: "login" });
+            return;
         }
     }
 
     if (
-        to?.meta?.adminRoute ||
-        authStore?.user ||
+        authStore.user &&
+        to?.meta?.adminRoute &&
+        (authStore?.user ||
         authStore?.user?.roles[0] ||
-        authStore?.user?.roles[0]?.id != "admin"
+        authStore?.user?.roles[0]?.id != "admin")
     ) {
-        console.log('asdsd')
-        next({ name: "login" });
+        console.log('User is not admin');
+        next({ name: "home" });
         return;
     }
-    console.log('asdsd');
 
     if (to?.meta?.isPublicAuthPage && authStore.user) {
         next({ name: "dashboard" });

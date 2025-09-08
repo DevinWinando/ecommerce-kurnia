@@ -137,8 +137,10 @@ import QuantityCounter from "./QuantityCounter.vue";
 import { useStore } from "vuex";
 import format from "@/utils/format";
 import CartService from "@/services/CartService";
+import { useAuthStore } from "@/stores/auth";
 
 const cartService = new CartService();
+const authStore = useAuthStore();
 
 const store = useStore();
 const carts = ref([]);
@@ -156,6 +158,11 @@ onMounted(() => {
 });
 
 const handleCheckout = (e) => {
+    if (!authStore.user?.pos_id) {
+        alert('Kamu bukan member kurnia store');
+        return;
+    }
+
     e.preventDefault();
     const formData = new FormData(e.target);
     const shippingAddress = formData.get("shipping_address");

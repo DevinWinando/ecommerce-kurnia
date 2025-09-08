@@ -17,13 +17,15 @@ class SendTransactionToPos implements ShouldQueue
      * @var array
      */
     protected $transaction;
+    protected $user;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($transaction)
+    public function __construct($transaction, $user)
     {
         $this->transaction = $transaction;
+        $this->user = $user;
     }
 
     /**
@@ -31,7 +33,9 @@ class SendTransactionToPos implements ShouldQueue
      */
     public function handle(): void
     {
-        // Send the transaction data to the POS system
-        $response = Pos::http('POST', '/checkout', $this->transaction);
+        // Include user information in the request
+        $response = Pos::http('POST', '/checkout', array_merge($this->transaction, ['user' => $this->user]));
+
+        logger($response->body());
     }
 }

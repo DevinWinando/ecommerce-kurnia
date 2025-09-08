@@ -113,6 +113,10 @@ class CartController extends Controller
             'transaction_number' => 'TRX-' . strtoupper(uniqid()),
             'shipping_address' => $request->input('shipping_address', ''),
             'tracking_number' => $request->input('tracking_number', ''),
+            'warehouse_id' => 24,
+            'customer_name' => auth()->user()->first_name . ' ' . auth()->user()->last_name,
+            'customer_phone' => auth()->user()->phone,
+            'customer_email' => auth()->user()->email,
         ]);
 
         // Create transaction items
@@ -122,13 +126,17 @@ class CartController extends Controller
                 'qty' => $item->qty,
                 'price' => $item->product->price,
                 'total' => $item->qty * $item->product->price,
+                'unit_id' => $item->product->unit_id,
             ]);
         }
 
         // Clear the cart after checkout
         Cart::where('user_id', $user->id)->delete();
 
-        dispatch(new SendTransactionToPos($transaction->with('items.product')->latest()->first()->toArray()));
+        dispatch(new SendTransactionToPos(
+            $transaction->with('items.product'),
+            auth()->user()->toArray(),
+        ));
 
         return response()->json(['message' => 'Checkout successful', 'items' => $cartItems]);
     }

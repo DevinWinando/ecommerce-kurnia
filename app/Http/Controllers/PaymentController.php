@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Clients\Pos;
 use App\Models\Transaction;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -61,11 +62,11 @@ class PaymentController extends Controller
                 if ($fraud == 'challenge') {
                     $transaction->update(['status' => 'pending']);
                 } else {
-                    $transaction->update(['status' => 'paid']);
+                    $this->paymentSuccess($transaction);
                 }
             }
         } else if ($status == 'settlement') {
-            $transaction->update(['status' => 'paid']);
+            $this->paymentSuccess($transaction);
         } else if ($status == 'pending') {
             $transaction->update(['status' => 'pending']);
         } else if ($status == 'deny') {
@@ -79,9 +80,19 @@ class PaymentController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
+    private function paymentSuccess($transaction)
+    {
+        $transaction->update(['status' => 'paid']);
+
+        Pos::http('put', '/api/transactions/' . $transaction->id)->post('/api/transactions', [
+            'transaction' => $transaction->toArray(),
+            'user' => $transaction->user->toArray(),
+        ]);
+    }
+
     public function download($id)
     {
-        $transaction = Transaction::with('items.product', 'user')->find($id);
+        $transaction = Transaction::with('items.product.unit', 'user')->find($id);
 
         $pdf = Pdf::loadView('invoice', compact('transaction'));
 

@@ -69,10 +69,10 @@
     <table class="w-full">
         <tr>
             <td class="w-half">
-                <img src="{{ asset("/assets/images/logo-fixed.png") }}" alt="Kurnia Group" width="200" />
+                <img src="{{ public_path("/assets/images/logo-fixed.png") }}" alt="Kurnia Group" width="100" />
             </td>
             <td class="w-half">
-                <h2>Invoice ID: {{ $transaction->transaction_number }}</h2>
+                <h3>Invoice ID: {{ $transaction->transaction_number }}</h3>
             </td>
         </tr>
     </table>
@@ -96,6 +96,7 @@
         <table class="products">
             <tr>
                 <th>Product</th>
+                <th>Unit</th>
                 <th>Qty</th>
                 <th>Price</th>
             </tr>
@@ -104,6 +105,9 @@
                 <tr class="items">
                     <td style="width: 400px;">
                         {{ $item['product']['name'] }}
+                    </td>
+                    <td>
+                        {{ $item['product']['unit']['name'] ?? '-' }}
                     </td>
                     <td>
                         {{ $item['qty'] }}

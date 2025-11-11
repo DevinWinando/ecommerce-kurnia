@@ -160,6 +160,13 @@ const send = async () => {
         room_id: roomId.value,
         message: text.value,
     });
+    messages.value.push({
+        id: Date.now(),
+        message: text.value,
+        user: { name: "Me" },
+        user_id: authStore.user ? authStore.user.id : null,
+        created_at: new Date().toISOString(),
+    });
     text.value = "";
 };
 

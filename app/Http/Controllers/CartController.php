@@ -6,6 +6,8 @@ use App\Jobs\SendTransactionToPos;
 use App\Models\Cart;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
@@ -95,49 +97,84 @@ class CartController extends Controller
      */
     public function checkout(Request $request)
     {
-        $user = $request->user();
-        $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
-        if ($cartItems->isEmpty()) {
-            return response()->json(['message' => 'Cart is empty'], 400);
-        }
+        try {
+            $user = $request->user();
+            $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
 
-        // Create a new transaction
-        $transaction = $user->transactions()->create([
-            'transaction_date' => now(),
-            'total_amount' => $cartItems->sum(function ($item) {
-                return $item->qty * $item->product->price;
-            }),
-            'status' => 'pending',
-            'notes' => $request->input('notes', ''),
-            'payment_method' => $request->input('payment_method', 'cash'),
-            'transaction_number' => 'TRX-' . strtoupper(uniqid()),
-            'shipping_address' => $request->input('shipping_address', ''),
-            'tracking_number' => $request->input('tracking_number', ''),
-            'warehouse_id' => 24,
-            'customer_name' => auth()->user()->first_name . ' ' . auth()->user()->last_name,
-            'customer_phone' => auth()->user()->phone,
-            'customer_email' => auth()->user()->email,
-        ]);
+            if ($cartItems->isEmpty()) {
+                return response()->json(['message' => 'Cart is empty'], 400);
+            }
 
-        // Create transaction items
-        foreach ($cartItems as $item) {
-            $transaction->items()->create([
-                'product_id' => $item->product_id,
-                'qty' => $item->qty,
-                'price' => $item->product->price,
-                'total' => $item->qty * $item->product->price,
-                'unit_id' => $item->product->unit_id,
+            $transaction = null;
+
+            DB::transaction(function () use ($user, $cartItems, $request, &$transaction) {
+                // Create transaction
+                $transaction = $user->transactions()->create([
+                    'transaction_date' => now(),
+                    'total_amount' => $cartItems->sum(fn($item) => $item->qty * $item->product->price),
+                    'status' => 'pending',
+                    'notes' => $request->input('notes', ''),
+                    'payment_method' => $request->input('payment_method', 'cash'),
+                    'transaction_number' => self::generateTransactionNumber(),
+                    'shipping_address' => $request->input('shipping_address', ''),
+                    'tracking_number' => $request->input('tracking_number', ''),
+                    'warehouse_id' => 24,
+                    'customer_name' => $user->first_name . ' ' . $user->last_name,
+                    'customer_phone' => $user->phone,
+                    'customer_email' => $user->email,
+                ]);
+
+                // Create items
+                foreach ($cartItems as $item) {
+                    $transaction->items()->create([
+                        'product_id' => $item->product_id,
+                        'qty' => $item->qty,
+                        'price' => $item->product->price,
+                        'total' => $item->qty * $item->product->price,
+                        'unit_id' => $item->product->unit_id,
+                        'warehouse_id' => 24,
+                    ]);
+                }
+
+                // Clear cart
+                Cart::where('user_id', $user->id)->delete();
+
+                // Dispatch setelah commit sukses
+                DB::afterCommit(function () use ($transaction, $user) {
+                    dispatch(new SendTransactionToPos(
+                        $transaction->load('items.product')->toArray(),
+                        $user->toArray()
+                    ));
+                });
+            });
+
+            return response()->json([
+                'message' => 'Checkout successful',
+                'items' => $cartItems,
             ]);
+        } catch (\Throwable $e) {
+            Log::error('Checkout error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'message' => 'Checkout failed',
+                'error' => $e->getMessage(),
+            ], 500);
         }
+    }
 
-        // Clear the cart after checkout
-        Cart::where('user_id', $user->id)->delete();
-
-        dispatch(new SendTransactionToPos(
-            $transaction->with('items.product'),
-            auth()->user()->toArray(),
-        ));
-
-        return response()->json(['message' => 'Checkout successful', 'items' => $cartItems]);
+    private function getNumberOrder($request)
+    {
+        $last = DB::table('ecommerces')->latest('id')->first();
+        if ($last) {
+            $item = $last->Ref;
+            $nwMsg = explode("_", $item);
+            $inMsg = $nwMsg[0] + 1;
+            $code = $inMsg . "_" . date("Y");
+        } else {
+            $code = "1_" . date("Y");
+        }
+        return $code;
     }
 }

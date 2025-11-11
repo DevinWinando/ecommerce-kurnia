@@ -12,7 +12,8 @@ class TransactionItem extends Model
         'qty',
         'price',
         'total',
-        'unit_id'
+        'unit_id',
+        'warehouse_id',
     ];
 
     /**

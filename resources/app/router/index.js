@@ -31,10 +31,9 @@ router.beforeEach(async (to, from, next) => {
     if (
         authStore.user &&
         to?.meta?.adminRoute &&
-        (authStore?.user ||
-        authStore?.user?.roles[0] ||
-        authStore?.user?.roles[0]?.id != "admin")
+        !authStore?.user.is_admin
     ) {
+        console.log(authStore.user);
         console.log('User is not admin');
         next({ name: "home" });
         return;

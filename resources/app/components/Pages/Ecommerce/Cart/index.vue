@@ -175,6 +175,6 @@ const handleCheckout = (e) => {
     cartService.checkout({ shipping_address: shippingAddress });
 
     store.dispatch("cart/clearCart");
-    window.location.href = "/cart";
+    // window.location.href = "/cart";
 };
 </script>

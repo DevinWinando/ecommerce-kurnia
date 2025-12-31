@@ -18,10 +18,21 @@ export default {
     mutations: {
         ADD_ITEM(state, product) {
             const item = state.items.find((i) => i.product_id === product.id);
+            const maxQty = product.stock?.qty || 0;
+            const available = product.stock?.available || false;
+            
+            if (!available) {
+                console.warn('Product out of stock');
+                return;
+            }
+            
             if (item) {
-                item.qty += product.qty;
+                const newQty = item.qty + (product.qty || 1);
+                // Don't allow adding more than available stock
+                item.qty = Math.min(newQty, maxQty);
             } else {
-                state.items.push({ ...product, product_id: product.id });
+                const initialQty = Math.min(product.qty || 1, maxQty);
+                state.items.push({ ...product, product_id: product.id, qty: initialQty });
             }
         },
         REMOVE_ITEM(state, id) {
@@ -30,9 +41,27 @@ export default {
         CLEAR_CART(state) {
             state.items = [];
         },
-        UPDATE_QTY(state, { id, qty }) {
+        UPDATE_QTY(state, { id, qty, product }) {
             const item = state.items.find((i) => i.product_id === id);
-            if (item && qty > 0) item.qty = qty;
+            if (!item) return;
+            
+            // Get max qty from product stock or from item itself
+            const maxQty = product?.stock?.qty || item.stock?.qty || 0;
+            const available = product?.stock?.available !== undefined 
+                ? product.stock.available 
+                : (item.stock?.available !== undefined ? item.stock.available : true);
+            
+            if (!available || maxQty === 0) {
+                // Remove item if not available
+                state.items = state.items.filter((i) => i.product_id !== id);
+                return;
+            }
+            
+            if (qty > 0) {
+                // Cap qty at max available stock
+                item.qty = Math.min(qty, maxQty);
+            }
+            
             if (qty == 0) {
                 state.items = state.items.filter((i) => i.product_id !== id);
             }
@@ -54,7 +83,12 @@ export default {
             commit("CLEAR_CART");
             dispatch("debouncedSync");
         },
-        updateQty({ commit, dispatch }, payload) {
+        updateQty({ commit, dispatch, state }, payload) {
+            // Find the product in cart to get stock info
+            const item = state.items.find((i) => i.product_id === payload.id);
+            if (item) {
+                payload.product = item; // Pass product info for stock validation
+            }
             commit("UPDATE_QTY", payload);
             dispatch("debouncedSync");
         },

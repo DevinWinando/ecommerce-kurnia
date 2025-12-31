@@ -126,14 +126,18 @@ class UserService
 
         unset($data['email']);
 
+        // Handle avatar separately if it's a file upload
         if (isset($data['avatar']) && $data['avatar']) {
             $this->mediaService->replace($data['avatar'], $user, 'avatars');
+            unset($data['avatar']); // Remove from data array as it's handled by media service
         }
 
+        // Only sync roles if provided (for admin updates)
         if (! empty($roles)) {
             Bouncer::sync($user)->roles($roles);
         }
 
+        // Update user with remaining data (including location fields)
         return $user->update($data);
     }
 

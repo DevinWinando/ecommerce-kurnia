@@ -104,12 +104,6 @@ const routes = [
         component: RecentOrders,
     },
     {
-        name: "settingsContent",
-        path: "/admin/settings/content",
-        meta: { requiresAuth: true, adminRoute: true },
-        component: RecentOrders,
-    },
-    {
         name: "ChatCustomer",
         path: "/chat",
         meta: { requiresAuth: true },

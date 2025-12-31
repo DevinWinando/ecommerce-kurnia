@@ -21,14 +21,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Toko Kurnia Plastik</title>
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+    
+    <!-- Leaflet JS - Load before Vite to ensure it's available -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
     @vite(['resources/styles/main.scss', 'resources/app/main.js', 'resources/app/assets/style.css'])
 
     <script>
         document.documentElement.classList.remove('dark')
+        // Ensure URL uses same protocol as current page (HTTPS/HTTP)
+        const currentProtocol = window.location.protocol;
+        const appUrl = '{{ env('APP_URL') }}';
+        const baseUrl = appUrl.startsWith('http') ? appUrl : `${currentProtocol}//${window.location.host}`;
+        // Force HTTPS if page is loaded via HTTPS
+        const finalUrl = window.location.protocol === 'https:' && baseUrl.startsWith('http:') 
+            ? baseUrl.replace('http:', 'https:') 
+            : baseUrl;
+        
         window.AppConfig = {
             name: '{{ env('APP_NAME') }}',
             logo: '{{ url('/assets/images/logo.png') }}',
-            url: '{{ env('APP_URL') }}',
+            url: finalUrl,
             csrf: '{{ csrf_token() }}',
             defaultLocale: '{{ env('APP_LOCALE', 'en') }}',
             defaultTimezone: '{{ env('APP_TIMEZONE', 'UTC') }}',
@@ -41,7 +60,7 @@
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light')
     </script>
-
+    
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="SB-Mid-client-Qr99qZm3N3psW61A"></script>
 </head>

@@ -13,7 +13,23 @@ import store from "./store";
 import axios from "axios";
 
 // ambil cookie sanctum dulu sebelum Echo connect
-await axios.get(`${import.meta.env.VITE_API_URL}/sanctum/csrf-cookie`, {
+// Use window.AppConfig.url or current origin to ensure same protocol (HTTPS/HTTP)
+// Wait for AppConfig to be available (it's set in index.blade.php)
+const getBaseURL = () => {
+    let url = window.AppConfig?.url || window.location.origin;
+    
+    // Ensure URL uses same protocol as current page (HTTPS/HTTP)
+    if (window.location.protocol === 'https:' && url.startsWith('http:')) {
+        url = url.replace('http:', 'https:');
+    } else if (window.location.protocol === 'http:' && url.startsWith('https:')) {
+        url = url.replace('https:', 'http:');
+    }
+    
+    return url;
+};
+
+const baseURL = getBaseURL();
+await axios.get(`${baseURL}/sanctum/csrf-cookie`, {
     withCredentials: true,
 });
 

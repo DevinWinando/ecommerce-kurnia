@@ -50,6 +50,11 @@ class CreateNewUser implements CreatesNewUsers
             'point' => $posUser['point'] ?? 0,
             'password' => Hash::make($input['password']),
             'code' => $posUser['code'] ?? 0,
+            'latitude' => $posUser['latitude'] ?? null,
+            'longitude' => $posUser['longitude'] ?? null,
+            'address' => $posUser['adresse'] ?? null,
+            'city' => $posUser['city'] ?? null,
+            'country' => $posUser['country'] ?? null,
         ]);
     }
 

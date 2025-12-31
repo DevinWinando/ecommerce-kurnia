@@ -5,12 +5,14 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EcommerceController;
+use App\Http\Controllers\GeocodeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,7 +45,15 @@ Route::get('/products/categories', [ProductController::class, 'categories']);
 Route::get('/products/search', [ProductController::class, 'search']);
 Route::get('/products/categories/{id}', [ProductController::class, 'getProductByCategory']);
 
+// Warehouse routes (public)
+Route::get('/warehouses', [WarehouseController::class, 'index']);
+Route::get('/warehouses/nearest', [WarehouseController::class, 'nearest']);
+Route::get('/warehouses/{id}', [WarehouseController::class, 'show']);
+
 Route::post('/payment/callback', [PaymentController::class, 'callback']);
+
+// Geocoding route (public, no auth required)
+Route::get('/geocode/search', [GeocodeController::class, 'search']);
 
 Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);

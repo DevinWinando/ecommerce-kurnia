@@ -19,13 +19,22 @@
                 </div>
             </div>
 
+            <!-- Stock Information -->
+            <div class="mt-2 flex items-center justify-between text-xs" v-show="authStore.user">
+                <div class="flex items-center gap-1">
+                    <span :class="getStockClass()" class="font-medium">
+                        {{ getStockText() }}
+                    </span>
+                </div>
+            </div>
+
             <div class="flex items-center justify-between mt-4 w-full">
-                <button v-show="!cartItem()" @click="add" :disabled="!authStore.user"
+                <button v-show="!cartItem()" @click="add" :disabled="!authStore.user || !isAvailable()"
                     class="mt-3 rounded-md transition-all z-[1] inline-block  bg-[#7d0909] text-white hover:bg-[#996c6c] w-full py-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#7d0909]"
                     type="button">
                     <i class="material-symbols-outlined">shopping_cart</i>
                 </button>
-                <QuantityCounter v-show="cartItem()" :product="props.product" :qty="cartItem()?.qty" />
+                <QuantityCounter v-show="cartItem()" :product="props.product" :qty="cartItem()?.qty" :max-qty="props.product.stock?.qty || 0" />
             </div>
         </div>
     </div>
@@ -49,17 +58,63 @@ const props = defineProps({
         link: String,
         price: Number,
         oldPrice: Number,
-        ratings: Number
+        ratings: Number,
+        stock: {
+            qty: Number,
+            status: String,
+            available: Boolean
+        },
+        unit: {
+            id: Number,
+            name: String,
+            short_name: String
+        }
     }
 })
 
 const store = useStore()
 
 const add = () => {
-    store.dispatch('cart/addToCart', { ...props.product, qty: 1 })
+    if (!isAvailable()) {
+        return;
+    }
+    // Ensure we don't add more than available stock
+    const maxQty = props.product.stock?.qty || 0;
+    const currentQty = cartItem()?.qty || 0;
+    const qtyToAdd = Math.min(1, maxQty - currentQty);
+
+    if (qtyToAdd > 0) {
+        store.dispatch('cart/addToCart', { ...props.product, qty: qtyToAdd })
+    }
 }
 
 const cartItem = () => {
     return store.state.cart.items.find(item => item.product_id == props.product.id)
+}
+
+const getStockText = () => {
+    if (!props.product.stock) {
+        return 'N/A'
+    }
+    const qty = props.product.stock.qty || 0
+    return `${qty} ${props.product.unit?.short_name || ''}`
+}
+
+const getStockClass = () => {
+    if (!props.product.stock) {
+        return 'text-gray-500'
+    }
+    const status = props.product.stock.status
+    if (status === 'in_stock') {
+        return 'text-green-600 dark:text-green-400'
+    } else if (status === 'low_stock') {
+        return 'text-yellow-600 dark:text-yellow-400'
+    } else {
+        return 'text-red-600 dark:text-red-400'
+    }
+}
+
+const isAvailable = () => {
+    return props.product.stock?.available || false
 }
 </script>

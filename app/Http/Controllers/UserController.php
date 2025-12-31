@@ -119,7 +119,13 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->authorize('edit', User::class);
+        // Allow user to update their own profile without special permission
+        // Only require 'edit' permission if updating another user
+        if ($request->user()->id !== $user->id) {
+            // Admin updating another user - require edit permission
+            $this->authorize('edit', User::class);
+        }
+        // If user is updating their own profile, no authorization check needed
 
         $data = $request->validated();
         if ($this->userService->update($user, $data)) {

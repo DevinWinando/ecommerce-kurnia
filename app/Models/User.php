@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
+use Spatie\Image\Enums\Fit;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -35,6 +36,16 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
      * @var array<string>|bool
      */
     protected $guarded = ['id'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $locationCasts = [
+        'latitude' => 'decimal:8',
+        'longitude' => 'decimal:8',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -154,16 +165,16 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('small_thumb')
-            ->fit(Manipulations::FIT_CROP, 300, 300)
+            ->fit(Fit::Crop, 300, 300)
             ->nonQueued();
         $this->addMediaConversion('medium_thumb')
-            ->fit(Manipulations::FIT_CROP, 600, 600)
+            ->fit(Fit::Crop, 600, 600)
             ->nonQueued();
         $this->addMediaConversion('large_thumb')
-            ->fit(Manipulations::FIT_CROP, 1200, 1200)
+            ->fit(Fit::Crop, 1200, 1200)
             ->nonQueued();
     }
-    
+
     public function transactions()
     {
         return $this->hasMany(Transaction::class);

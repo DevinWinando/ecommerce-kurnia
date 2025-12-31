@@ -27,4 +27,11 @@ class Product extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
+    public function warehouses()
+    {
+        return $this->belongsToMany(Warehouse::class, 'product_warehouse')
+            ->withPivot('qty')
+            ->withTimestamps();
+    }
 }

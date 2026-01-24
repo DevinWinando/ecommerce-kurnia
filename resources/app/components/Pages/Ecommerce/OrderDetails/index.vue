@@ -70,7 +70,7 @@
         </div>
 
         <!-- Delivery Tracking Component -->
-        <div class="mb-[25px]">
+        <div class="mb-[25px] bg-white dark:bg-[#0c1427] p-[20px] md:p-[25px] rounded-md">
           <DeliveryTracking :transaction-id="transactionId" />
         </div>
       </div>

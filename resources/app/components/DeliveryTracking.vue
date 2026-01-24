@@ -33,7 +33,7 @@
           Delivery Tracking
         </h5>
       </div>
-      <div class="card-body">
+      <div class="card-body ms-2">
         <!-- Delivery Status -->
         <div class="row mb-3">
           <div class="col-md-6">
@@ -105,9 +105,9 @@
         <div v-if="deliveryTracking.delivery.status === 'on_delivery' || deliveryTracking.delivery.status === 'delivered'"
              class="map-container mb-3">
           <div id="delivery-map" style="height: 400px; border-radius: 8px;"></div>
-          
+
           <!-- Tracking Stats -->
-          <div class="mt-2 d-flex justify-content-between text-muted small">
+          <div class="mt-2 d-flex justify-content-between text-muted small mb-2 ms-1">
             <span v-if="deliveryTracking.tracking_history && deliveryTracking.tracking_history.length > 0">
               <i class="fas fa-route me-1"></i>
               {{ deliveryTracking.tracking_history.length }} tracking points recorded
@@ -120,7 +120,7 @@
         </div>
 
         <!-- Status Logs -->
-        <div v-if="deliveryTracking.status_logs && deliveryTracking.status_logs.length > 0" class="mt-3">
+        <div v-if="deliveryTracking.status_logs && deliveryTracking.status_logs.length > 0" class="mt-4">
           <h6><i class="fas fa-list me-2"></i>Status Updates</h6>
           <div class="status-logs">
             <div v-for="(log, index) in deliveryTracking.status_logs" :key="index" class="status-entry mb-2">
@@ -433,15 +433,24 @@ export default {
 }
 
 .timeline-item i {
-  font-size: 24px;
+  font-size: 20px;
   background: white;
-  padding: 5px;
+  padding: 10px;
   border-radius: 50%;
   color: #dee2e6;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #dee2e6;
+  margin: 0 auto;
 }
 
 .timeline-item.active i {
-  color: #0d6efd;
+  color: white;
+  background: #0d6efd;
+  border-color: #0d6efd;
 }
 
 .timeline-item strong {
@@ -463,7 +472,7 @@ export default {
 }
 
 .tracking-history, .status-logs {
-  background: #f8f9fa;
+  background: #ffffff;
   padding: 12px;
   border-radius: 6px;
 }

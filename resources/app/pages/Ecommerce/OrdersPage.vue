@@ -3,7 +3,7 @@
   <Orders />
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
 import PageTitle from "@/components/Common/PageTitle.vue";
 import Orders from "@/components/Pages/Ecommerce/Orders/index.vue";

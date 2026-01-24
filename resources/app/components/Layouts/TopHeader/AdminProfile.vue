@@ -54,6 +54,19 @@
                         </RouterLink>
                         </MenuItem>
                     </li>
+                    <li>
+                        <MenuItem>
+                        <RouterLink to="/settings/history"
+                            class="block relative py-[7px] ltr:pl-[50px] ltr:pr-[20px] rtl:pr-[50px] rtl:pl-[20px] text-black transition-all hover:text-primary-500"
+                            exact>
+                            <i
+                                class="material-symbols-outlined top-1/2 -translate-y-1/2 !text-[22px] absolute ltr:left-[20px] rtl:right-[20px]">
+                                history
+                            </i>
+                            Transaction History
+                        </RouterLink>
+                        </MenuItem>
+                    </li>
                 </ul>
                 <div class="border-t border-gray-100 mt-[10px] pt-[10px]">
                     <MenuItem>

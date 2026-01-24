@@ -63,6 +63,9 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::post('/cart/checkout', [CartController::class, 'checkout']);
 
     Route::get('/transactions', [TransactionController::class, 'index']);
+    Route::get('/transactions/{id}', [TransactionController::class, 'show']);
+    Route::get('/transactions/{id}/delivery-tracking', [TransactionController::class, 'deliveryTracking']);
+    Route::post('/transactions/{id}/request-delivery', [TransactionController::class, 'requestDelivery']);
 
     /**
      * Auth related

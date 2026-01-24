@@ -1,31 +1,35 @@
+// Auth Pages
 import { default as PageLogin } from "@/views/pages/auth/login/Main";
 import { default as PageRegister } from "@/views/pages/auth/register/Main";
 import { default as PageResetPassword } from "@/views/pages/auth/reset-password/Main";
 import { default as PageForgotPassword } from "@/views/pages/auth/forgot-password/Main";
 import { default as PageNotFound } from "@/views/pages/shared/404/Main";
+
+// Dashboard Pages
 import EcommercePosPage from "../pages/Dashboard/EcommercePosPage.vue";
-import ChangePasswordPage from "../pages/Settings/ChangePasswordPage.vue";
 import EcommercePosAboutUsPage from "../pages/Dashboard/EcommercePosAboutUsPage.vue";
-import ContactUs from "@/components/FrontPages/Common/ContactUs.vue";
 import EcommerceCategoriesPage from "@/pages/Dashboard/EcommerceCategoriesPage.vue";
 import EcommerceSearchPage from "@/pages/Dashboard/EcommerceSearchPage.vue";
-import HistoryPage from "../pages/Settings/HistoryPage.vue";
-import CartPage from "../pages/Ecommerce/CartPage.vue";
-import ProductDetailsPage from "../pages/Ecommerce/ProductDetailsPage.vue";
-import AccountSettingsPage from "../pages/Settings/AccountSettingsPage.vue";
-import ChatCustomer from "@/pages/Dashboard/ChatCustomer.vue";
-import ChatAdmin from "@/pages/Dashboard/ChatAdmin.vue";
-import ListRoomChat from "@/pages/Dashboard/ListRoomChat.vue";
-
 import { default as PageDashboard } from "@/views/pages/private/dashboard/Main";
-import { default as PageProfile } from "@/views/pages/private/profile/Main";
 import RecentOrders from "@/components/Dashboard/Ecommerce/RecentOrders.vue";
 
-import { default as PageUsers } from "@/views/pages/private/users/Index";
-import { default as PageUsersCreate } from "@/views/pages/private/users/Create";
-import { default as PageUsersEdit } from "@/views/pages/private/users/Edit";
+// Ecommerce Pages
+import CartPage from "../pages/Ecommerce/CartPage.vue";
+import ProductDetailsPage from "../pages/Ecommerce/ProductDetailsPage.vue";
+import OrdersPage from "../pages/Ecommerce/OrdersPage.vue";
+import OrderDetailsPage from "../pages/Ecommerce/OrderDetailsPage.vue";
 
-import abilities from "@/stub/abilities";
+// Settings Pages
+import ChangePasswordPage from "../pages/Settings/ChangePasswordPage.vue";
+import HistoryPage from "../pages/Settings/HistoryPage.vue";
+import AccountSettingsPage from "../pages/Settings/AccountSettingsPage.vue";
+
+// Chat Pages
+import ChatCustomer from "@/pages/Dashboard/ChatCustomer.vue";
+import ChatAdmin from "@/pages/Dashboard/ChatAdmin.vue";
+
+// Common Components
+import ContactUs from "@/components/FrontPages/Common/ContactUs.vue";
 
 const routes = [
     {
@@ -72,6 +76,18 @@ const routes = [
         name: "CartPage",
         meta: { requiresAuth: true },
         component: CartPage,
+    },
+    {
+        path: "/orders",
+        name: "OrdersPage",
+        meta: { requiresAuth: true },
+        component: OrdersPage,
+    },
+    {
+        path: "/orders/:id",
+        name: "OrderDetailsPage",
+        meta: { requiresAuth: true },
+        component: OrderDetailsPage,
     },
     {
         path: "/ecommerce/product-details",

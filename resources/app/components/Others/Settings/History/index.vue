@@ -115,6 +115,17 @@
                         }}</span>
                     </div>
                 </div>
+                <!-- Action Buttons -->
+                <div class="flex w-full justify-end gap-2 mt-4">
+                    <!-- Track Order Button -->
+                    <button
+                        class="bg-purple-500 text-white text-sm px-4 py-2 hover:bg-purple-600 rounded-md"
+                        @click="trackOrder(transaction.id)"
+                    >
+                        <i class="fas fa-map-marker-alt me-1"></i>
+                        Track Order
+                    </button>
+                </div>
                 <div v-show="transaction.status == 'completed'" class="flex w-full justify-end">
                     <button class="bg-blue-500 text-white text-sm px-4 py-2 hover:bg-blue-600 rounded-md mt-4" @click="handleCheckout(transaction.id)">Payment</button>
                 </div>
@@ -128,12 +139,14 @@
 
 <script setup>
 import { defineComponent, ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import SettingsNav from "../SettingsNav.vue";
 import JsBarcode from "jsbarcode";
 import TransactionService from "@/services/TransactionService";
 import format from "@/utils/format";
 import axios from "axios";
 
+const router = useRouter();
 const barcode = ref(null);
 const text = ref("Hello World");
 const transactions = ref([]);
@@ -153,6 +166,10 @@ onMounted(() => {
         transactions.value = data.data;
     });
 });
+
+const trackOrder = (transactionId) => {
+    router.push(`/orders/${transactionId}`);
+};
 
 const handleCheckout = async (id) => {
     try {

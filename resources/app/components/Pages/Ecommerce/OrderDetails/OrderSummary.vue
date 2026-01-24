@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="trezo-card-content">
+    <div class="trezo-card-content" v-if="transaction">
       <div class="table-responsive overflow-x-auto">
         <table class="w-full">
           <thead class="text-black dark:text-white">
@@ -23,110 +23,54 @@
               <th
                 class="font-medium ltr:text-right rtl:text-left px-[20px] py-[11px] bg-gray-50 dark:bg-[#15203c] whitespace-nowrap first:rounded-tl-md"
               >
-                Price
+                Amount
               </th>
             </tr>
           </thead>
           <tbody class="text-black dark:text-white">
-            <tr>
+            <tr v-for="item in (transaction.items || [])" :key="item.id">
               <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
+                class="text-gray-500 dark:text-gray-400 ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036]"
               >
-                Grand Total :
+                {{ item.product?.name || 'Product Name' }} (x{{ item.qty || 0 }})
               </td>
               <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
+                class="text-gray-500 dark:text-gray-400 ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036]"
               >
-                $1,105.00
+                {{ formatCurrency((item.product?.price || 0) * (item.qty || 0)) }}
+              </td>
+            </tr>
+            <tr v-if="!transaction.items || transaction.items.length === 0">
+              <td colspan="2" class="text-center text-gray-500 px-[20px] py-[15px]">
+                No items found
               </td>
             </tr>
             <tr>
               <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
+                class="text-gray-500 dark:text-gray-400 ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036]"
               >
-                Discount :
+                Shipping Cost :
               </td>
               <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
+                class="text-gray-500 dark:text-gray-400 ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036]"
               >
-                -$105.00
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
-              >
-                Tax :
-              </td>
-              <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
-              >
-                $75.00
+                {{ formatCurrency(transaction.shipping_cost || 0) }}
               </td>
             </tr>
             <tr>
               <td
-                class="font-medium ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
+                class="font-medium ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036]"
               >
-                Subtotal :
+                Total Amount :
               </td>
               <td
-                class="font-medium ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
+                class="font-medium ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036]"
               >
-                $1,000.00
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
-              >
-                Shipping Charge :
-              </td>
-              <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
-              >
-                $80.00
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
-              >
-                Coupon Charge :
-              </td>
-              <td
-                class="text-gray-500 dark:text-gray-400 ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
-              >
-                $20.00
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="font-medium ltr:text-left rtl:text-right whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
-              >
-                Total :
-              </td>
-              <td
-                class="font-medium ltr:text-right rtl:text-left whitespace-nowrap px-[20px] py-[15px] border-b border-gray-100 dark:border-[#172036] ltr:first:border-l ltr:last:border-r rtl:first:border-r rtl:last:border-l"
-              >
-                $900.00
+                {{ formatCurrency(transaction.total_amount) }}
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
-      <h6 class="mt-[20px] md:mt-[25px] mb-[10px]">Payment Method</h6>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center">
-          <img src="@/assets/images/master-card.png" alt="master-card" />
-          <div class="ltr:ml-[12px] rtl:mr-[12px]">
-            <span class="block text-black dark:text-white font-medium">
-              Payment
-            </span>
-            <span class="block text-sm mt-[3px]"> Via MasterCard </span>
-          </div>
-        </div>
-        <span class="block"> $900.00 </span>
       </div>
     </div>
   </div>
@@ -137,5 +81,25 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "OrderSummary",
+  props: {
+    transaction: {
+      type: Object,
+      default: null
+    }
+  },
+  setup() {
+    const formatCurrency = (amount: number) => {
+      if (!amount) return 'Rp 0';
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+      }).format(amount);
+    };
+
+    return {
+      formatCurrency
+    };
+  }
 });
 </script>

@@ -1,9 +1,9 @@
 <template>
-  <PageTitle pageTitle="Order Details" subTitle="eCommerce" />
-  <OrderDetails />
+  <PageTitle pageTitle="Order Details" class="mt-6" subTitle="eCommerce" />
+  <OrderDetails class="px-4" />
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
 import PageTitle from "@/components/Common/PageTitle.vue";
 import OrderDetails from "@/components/Pages/Ecommerce/OrderDetails/index.vue";

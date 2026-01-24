@@ -39,7 +39,10 @@ const props = defineProps({
 const store = useStore()
 
 const getMaxQty = () => {
-    if (!props.product.stock || !props.product.stock.available) {
+    if (!props.product || !props.product.stock) {
+        return 0;
+    }
+    if (!props.product.stock.available) {
         return 0;
     }
     return props.product.stock.qty || 0;
